@@ -1,0 +1,153 @@
+
+.basic-task {
+	margin-bottom: 2em;
+	// font-family: 'BLOKK';
+	color: $grey;
+	word-wrap: break-word;
+	position: relative;
+	height: 88px;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.basic-task.is-opened {
+	overflow: visible;
+
+	.task-description {
+		white-space: normal;
+	}
+}
+
+.task-form {
+	margin-top: 1.55em;
+	padding-top: 1.5em;
+	border-top: 1px solid gainsboro;
+}
+
+.basic-task.list:before {
+	opacity: 1;
+}
+
+.basic-task:before {
+	content: '';
+	width: 31px;
+	height: 20px;
+	background: url(/img/list.svg);
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: absolute;
+	display: block;
+	top: 35px;
+	right: 88px;
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
+}
+
+
+.task-status {
+	position: absolute;
+	right: 17px;
+	top: 17px;
+
+	img {
+		width: 55px;
+		margin: 0 auto;
+		display: block;
+	}
+	
+	
+	.finshed {
+		display: none;
+	}
+
+
+}
+
+.task-left-col {
+	width: 80%;
+	float: left;
+}
+
+.task-right-col {
+	width: 20%;
+	float: right;
+}
+
+.task-list-title {
+	font-size: 1.875em;
+	width: 100%;
+	border-bottom: 1px solid rgb(224,224,224);
+	padding-bottom: 0.25em;
+	margin-bottom: 1em;
+}
+
+.task-description {
+	// text-overflow: ellipsis;
+	// white-space: nowrap;
+	overflow: hidden;
+	width: 100%;
+	margin-bottom: 0.5em;
+	line-height: 1.2;
+	height: 1.2em;
+}
+
+.task-assigned-project {
+	text-transform: uppercase;
+	color: $dark-green;
+	margin-right: 0.5em;
+}
+
+.task-time-added {
+	text-transform: uppercase;
+	font-size: 0.813rem;
+	letter-spacing: 0.1em;
+
+	.time {
+		margin-left: 0.2em;
+	}
+
+}
+
+.task-description-input {
+	font-size: 1.313em;
+	color: rgb(167,169,172);
+	resize: none;
+	min-height: 100px;
+	border-bottom: 1px solid $light-grey;
+	margin-bottom: 1em;
+}
+
+
+.left-hand-form-col, .right-hand-form-col {
+	float: left;
+}
+
+
+.left-hand-form-col {
+	width: 90%;
+}
+.right-hand-form-col {
+	width: 10%;
+}
+
+.form-select-fields .input-list-wrapper {
+  width: 48.5%;
+  float: left;
+}
+
+.form-select-fields .input-list-wrapper:nth-of-type(2n) {
+	margin-left: 3%
+}
+
+.form-select-fields .input-list-wrapper:only-of-type {
+  width: 100%;
+}
+
+
+
+.add-task-block {
+	.task-description-input {
+		  padding-top: 0.4em;
+	}
+}

@@ -1,0 +1,99 @@
+.top-nav {
+	padding: 20px;
+	border-bottom: 1px solid rgb(224,224,224);
+	width: 100%;
+	margin-bottom: 8em;
+}
+
+.top-nav-wrapper {
+	float: right;
+}
+
+.circle-btn {
+	height: 38px;
+	width: 38px;
+	padding: 7px;
+	border-radius: 40px;
+	background: gainsboro;
+
+
+	img {
+		width: 100%;
+		height: auto;
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+.filter-elements, .search-icon {
+	float: left;
+}
+
+.filter-elements li {
+	display: inline-block;
+	float: left;
+	margin-right: 20px;
+
+	&:last-of-type {
+		margin-right: 0;
+	}
+}
+
+.personal-filter {
+	background: $yellow;
+}
+
+.global-filter {
+	background: $green;
+}
+
+.search-icon {
+	margin-left: 100px;
+	cursor: pointer;
+}
+
+.search-icon .circle-btn {
+	background: $dark-blue;
+}
+
+.search-icon img {
+	width: 80%;
+}
+
+.search-icon:after {
+	position: absolute;
+	background: rgba(228,186,63,0.9);
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	content: '';
+	border-radius: 50%;
+	width: 0vw;
+	height: 0vh;
+	z-index: 1;
+	opacity: 1;
+	visibility: visible;
+	transition: width 0.5s ease-in-out, height 0.5s ease-in-out, opacity 0s 0.5s, visibility 0s 0.5s; 
+}
+
+.search-icon.expanded:after {
+	height: 300vw;
+	width: 300vw;
+	opacity: 0;
+	visibility: hidden;
+	z-index: -1;
+}
+
+
+.search-icon {
+	position: relative;
+	z-index: 20;
+}
+
+@media all and (min-width: 900px) {
+
+	.menu {
+		display: none;
+	}
+
+}

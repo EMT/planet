@@ -1,0 +1,195 @@
+.side-nav {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	width: 30%;
+	max-width: $desktop-sidebar;
+	padding: 20px;
+	background: $dark-blue;
+}
+
+.add-project-link {
+	width: 100%;
+	background: rgb(41,49,62);
+	display: block;
+	padding: 30px;
+	text-decoration: none;
+	color: rgb(255,255,255);
+	border-radius: 7px;
+	position: relative;
+
+	&:after {
+		content: '';
+		height: 15px;
+		width: 15px;
+		left: 5.5%;
+		top: 50%;
+		transform: translateY(-50%);
+		display: block;
+		background-image: url(img/plus.svg);
+		background-size: 100%;
+		border-radius: 50%;
+		position: absolute;
+	}
+}
+
+
+
+.planet-logo {
+	margin: 0 auto;
+	width: 35%;
+	display: block;
+	padding-top: 4.250em;
+	padding-bottom: 6.875em;
+}
+
+
+.sidebar-title, .sidebar-list li, .add-project-link {
+	padding-left: 50px;
+}
+
+.sidebar-title, .heavy-text, .task-assigned-project {
+	font-weight: bold;
+	font-family: 'Neuzeit Heavy';
+	text-transform: uppercase;
+	font-size: 0.813rem;
+	letter-spacing: 0.1em;
+}
+
+.sidebar-title {
+	color: rgb(86,92,99);
+	position: relative;
+	margin-bottom: 1.25em;
+	padding-top: 7px;
+	padding-bottom: 7px;
+
+	&:after {
+		content: '';
+		height: 30px;
+		width: 21px;
+		left: 4%;
+		top: 50%;
+		transform: translateY(-50%);
+		display: block;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		background-position: center;
+		position: absolute;
+	}
+}
+
+
+
+.projects-title:after {
+	background-image: url(img/planet-icon.svg);
+}
+
+.team-title:after {
+	background-image: url(img/team-icon.svg);
+	width: 16px;
+	left: 5%;
+}
+
+.sidebar-list li {
+	color: rgb(138,142,147);
+}
+
+.sidebar-list li a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.sidebar-num {
+	float: right;
+	color: inherit;
+}
+
+.projects-list--sidebar, .add-project-link {
+	margin-bottom: 1.875em;
+}
+
+.projects-list--sidebar li {
+	padding-top: 7px;
+	margin-bottom: 5px;
+	padding-bottom: 7px;
+	position: relative;
+
+	&:after {
+		content: '';
+		height: 15px;
+		width: 15px;
+		left: 5%;
+		top: 50%;
+		transform: translateY(-50%);
+		display: block;
+		border: 2px solid rgb(138,142,147);
+		border-radius: 15px;
+		position: absolute;
+	}
+
+	&:before {
+		content: '';
+		height: 7px;
+		width: 7px;
+		left: 6.3%;
+		top: 50%;
+		transform: translateY(-50%);
+		display: block;
+		background: rgb(138,142,147);
+		border-radius: 15px;
+		position: absolute;
+		opacity: 0;
+		transition: opacity 0.2s ease-out;
+	}
+
+	&:hover:before {
+		opacity: 1;
+	}
+
+}
+
+.team-list--sidebar li {
+	padding-top: 7px;
+	margin-bottom: 10px;
+	padding-bottom: 7px;
+	position: relative;
+
+	&:after {
+		content: '';
+		height: 27px;
+		width: 27px;
+		left: 3.5%;
+		top: 50%;
+		transform: translateY(-50%);
+		display: block;
+		background-image: url(img/team-member.jpg);
+		background-size: 100%;
+		border-radius: 50%;
+		position: absolute;
+	}
+}
+
+
+@media all and (max-width: 900px) {
+	.side-nav {
+		// Temp style to play with the iPad.
+		max-width: 100%;
+		width: $mobile-sidebar;
+		position: fixed;
+		left: -$mobile-sidebar;
+		z-index: 20;
+		height: 100%;
+		bottom: 0;
+		top: 0;
+		transition: left 0.3s ease-in-out;
+	}
+
+	.side-nav.active {
+		left: 0;
+	}
+
+	.content-area {
+		width: 100%;
+	}
+}

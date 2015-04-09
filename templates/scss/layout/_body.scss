@@ -1,0 +1,26 @@
+.content-inner-wrapper {
+	max-width: 945px;
+	width: 90%;
+	margin: 0 auto;
+}
+.content-area {
+	width: calc(100% - #{$desktop-sidebar});
+	background: rgb(245,245,245);
+	position: relative;
+	height: 100vh;
+	overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; 
+}
+
+.flex-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 100vh;
+}
+
+
+html {
+	background: $dark-blue;
+}

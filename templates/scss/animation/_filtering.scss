@@ -1,0 +1,37 @@
+.basic-task {
+	transition: 
+		transform 0.3s 0.2s $easeInOutCubic,
+		opacity 0.3s 0.2s $easeInOutCubic, 
+		height 0.3s $easeInOutCubic, 
+		padding 0.3s $easeInOutCubic, 
+		margin 0.3s $easeInOutCubic, 
+		visibility 0.3s $easeInOutCubic;
+}
+
+.content-load-area.personal {
+	.basic-task {
+		visibility: hidden;
+		height: 0;
+		overflow: hidden;
+		margin: 0;
+		padding: 0;
+		opacity: 0;
+		transform: translateX(-30%);
+		transition: 
+			transform 0.3s $easeInOutCubic,
+			opacity 0.3s $easeInOutCubic, 
+			height 0.3s 0.2s $easeInOutCubic, 
+			padding 0.3s 0.2s $easeInOutCubic, 
+			margin 0.3s 0.2s $easeInOutCubic, 
+			visibility 0.3s 0.3s $easeInOutCubic;
+	}
+
+	.basic-task[data-scope="personal"], .add-task-block {
+		visibility: visible;
+		height: 88px;
+		opacity: 1;
+		margin-bottom: 2em;
+		padding: 1.5em 3em;
+		transform: translateX(0);
+	}
+}

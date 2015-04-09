@@ -1,0 +1,30 @@
+.subtask-list {
+	margin-bottom: 1em;
+	li {
+		margin-bottom: 1em;
+	}
+
+	.subtask {
+		background: $light-grey;
+		padding: 0.65em;
+		color: $grey;
+		border-radius: 4px;
+		padding-left: 50px;
+		position: relative;
+	
+		&:before {
+			content: '';
+			height: 15px;
+			width: 15px;
+			left: 2.5%;
+			top: 50%;
+			transform: translateY(-50%);
+			display: block;
+			background-image: url(img/plus.svg);
+			background-size: 100%;
+			position: absolute;
+		}
+	}
+
+
+}
