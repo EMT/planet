@@ -356,6 +356,8 @@ $('.js-load').on('submit', '.add-task-block form', function(e) {
 		$('.side-nav').toggleClass('active');
 	});
 
+	 $('.side-nav').perfectScrollbar();
+
 });
 
 var hasList = function(item) {
@@ -370,6 +372,10 @@ var hasList = function(item) {
 var animateLoad = function(ajaxUrl,loader) {
 	// Hide the current content (fade-out-down)
 	$('.js-load').addClass('content-hidden');
+
+	setTimeout(function(){
+		$('.content-area').scrollTop(0);
+	},400);
 
 	// Check if we want to show the loader.
 	if ( loader != 'none') {
@@ -391,6 +397,7 @@ var animateLoad = function(ajaxUrl,loader) {
 
 			// pass the data to the DOM element
 			rivets.bind(taskList,{tasks:retrievedData});
+
 
 		    $('.js-load .task-description-input').autoGrow();
 

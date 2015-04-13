@@ -7,7 +7,12 @@
 	max-width: $desktop-sidebar;
 	padding: 20px;
 	background: $dark-blue;
+	// position: fixed;
+	z-index: 50;
+	height: 100vh;
+	position: relative;
 }
+
 
 .add-project-link {
 	width: 100%;

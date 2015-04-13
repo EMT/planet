@@ -5,8 +5,10 @@
 }
 .content-area {
 	width: calc(100% - #{$desktop-sidebar});
+  // margin-left: $desktop-sidebar;
 	background: rgb(245,245,245);
 	position: relative;
+  padding-top: 10em;
 	height: 100vh;
 	overflow-y: scroll;
   -webkit-overflow-scrolling: touch; 
@@ -23,4 +25,10 @@
 
 html {
 	background: $dark-blue;
+}
+
+@media all and (max-width: 900px) {
+  .content-area {
+    margin-left: 0;
+  }
 }
