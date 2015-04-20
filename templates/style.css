@@ -225,7 +225,10 @@ html {
   width: 100%;
   margin-bottom: 0.5em;
   line-height: 1.2;
-  height: 1.2em; }
+  height: 1em;
+  min-height: 1.5em;
+  font-size: 1em;
+  color: inherit; }
 
 .task-assigned-project {
   text-transform: uppercase;
@@ -266,8 +269,13 @@ html {
 .form-select-fields .input-list-wrapper:only-of-type {
   width: 100%; }
 
-.add-task-block .task-description-input {
-  padding-top: 0.4em; }
+.add-task-block {
+  transition: border 0.3s ease-out; }
+  .add-task-block .task-description-input {
+    padding-top: 0.4em; }
+
+.add-task-block.lazy-val-error {
+  border: #ee5626 2px solid; }
 
 .input-list-wrapper {
   background: whitesmoke;
@@ -880,7 +888,7 @@ body {
   .new-project-title :-ms-input-placeholder {
     color: #1db797; }
 
-.project-title-input, .task-description-input, .subtask-input {
+.project-title-input, .js-task-description-input, .subtask-input {
   background: none;
   border: none;
   font-family: inherit;

@@ -7,6 +7,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" >
 	<script src="/js/jquery.min.js"></script>
 </head>
+
+<!-- This is just some debugging stuff to look at the current data in the task list. -->
+<style type="text/css">.code-overlay {position: fixed; top: 0; left: 0; width: 50%; height: 100%; overflow-y: scroll; background: rgba(0,0,0,0.6); font-family: monospace; color: rgb(224, 224, 224); font-size: 1em; z-index: 200; left: -50%; transition: left 0.2s ease-out; } .code-overlay.visible { left: 0; }
+</style>
+<script>
+	$(document).on('keydown', function(e){ if (e.keyCode == 106 ) { e.preventDefault(); $('.code-overlay').toggleClass('visible'); } });
+</script>
+<pre class="code-overlay">
+	{{$data | json 2}}
+</pre>
+<!-- End of debugging tools. -->
+
 <body class="fade-in">
 <div class="js-ajax-content">
 	<div class="flex-container">
@@ -15,16 +27,16 @@
 			<a href="#" class="add-project-link">Add Project</a>
 
 			<div class="projects-list--sidebar" id="projectList">
-				<h2 class="projects-title sidebar-title">Projects<span class="sidebar-num">6</span></h2>
+				<h2 class="projects-title sidebar-title">Projects<span class="sidebar-num">{{projects.length}}</span></h2>
 				<ul class="sidebar-list">
-					<li rv-each-project="projects"><a class="ajaxed" href="/plau.html">{ project.text }</a><span class="sidebar-num">12</span></li>
+					<li v-repeat="projects"><a class="ajaxed" href="#" v-on="click: changeProject(this, $event)">{{ name }}</a><span class="sidebar-num">12</span></li>
 				</ul>
 			</div>
 
 			<div class="team-list--sidebar" id="teamList">
-				<h2 class="team-title sidebar-title">Team Members<span class="sidebar-num">6</span></h2>
+				<h2 class="team-title sidebar-title">Team Members<span class="sidebar-num">{{users.length}}</span></h2>
 				<ul class="sidebar-list">
-					<li rv-each-user="users"><a href="#">@{ user.text }</a></li>
+					<li v-repeat="users"><a href="#">@{{ name }}</a></li>
 				</ul>
 			</div>
 		</div>
@@ -50,10 +62,79 @@
 					</div>
 				</div>
 			</div>
-			
-				<div class="content-inner-wrapper js-load content-load-area">
+			<div class="content-inner-wrapper content-load-area js-load content-hidden" id="js-load-content">
 
+				<div class="task-list-title-area">
+					<h2 class="task-list-title">{{title | capitalize}}</h2>
 				</div>
+
+				<ul class="task-list" id="taskList">
+
+					<li class="basic-task rounded-white-modal add-task-block mix">
+						<form action="#" class="clearfix">
+								<div class="left-hand-form-col">
+									<textarea placeholder="Add Task" class="js-task-description-input task-description-input" name="task-description" id="task-description"></textarea>
+									<ul class="subtask-list">
+										<li class="subtask"><input type="text" class="subtask-input" placeholder="Add Subtask"></li>
+									</ul>
+									<div class="form-select-fields">	
+										<div class="task-names input-list-wrapper">
+											<select id="select-names-test" name="names" multiple class="js-selector js-names-input names-input" placeholder="Add a user..."></select>
+										</div>
+										<div class="task-project input-list-wrapper">
+											<select id="select-project" name="project" class="js-selector js-project-input project-input" placeholder="Select a project..."></select>
+										</div>
+									</div>
+								</div>
+								<div class="right-hand-form-col">
+									<button type="submit" class="js-add-task heavy-text btn-reset add-project">Done</button>
+								</div>
+						</form>
+					</li>
+
+					<li data-scope="personal" class="basic-task rounded-white-modal clearfix mix" v-repeat="tasks" v-transition>
+						<div class="task-left-col">
+							<textarea rows="1" class="task-description js-task-description-input" contentEditable="true" style="outline:none" type="text" v-model="content"></textarea>
+							<span class="task-assigned-project">{{project}}</span>
+							<span class="task-time-added">
+								<span class="date">{{date | formatDate}}</span>
+							</span>
+							<a href="#" v-on="click: removeTask(this, $event)">Remove task</a>
+							<form action="#" class="clearfix task-form">
+								<ul class="subtask-list">
+									<li class="subtask" v-repeat="subtasks">
+										<input type="text" class="subtask-input" placeholder="Add Subtask" v-model="task" v-on="keydown: removeSubTask(this, $event) | key 8, keydown: addSubTask(this, $event) | key enter">
+									</li>
+									<li class="subtask">
+										<input type="text" class="subtask-input" placeholder="Add Subtask" v-on="keydown: removeSubTask(this, $event) | key 8, keydown: addSubTask(this, $event) | key enter">
+									</li>
+								</ul>
+								<div class="task-names input-list-wrapper" v-names="team" >
+									<select id="select-names-test" name="names" multiple class="js-selector js-names-input names-input" style="width:100%" placeholder="Add a user..."></select>
+								</div>
+							</form>
+						</div>
+						<div class="task-right-col">
+							<a href="#" class="js-task-status task-status" v-on="click: done = !done">
+								<div class="toggle {{done ? 'done' : 'not-done'}}" >
+								  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								     viewBox="0 0 56.7 57" enable-background="new 0 0 56.7 57" xml:space="preserve">
+								  <path class="retract" fill="none" stroke="#f1f1f1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+								    M36,6.3c5.7,2.1,10.2,6.2,12.9,11.1"/>
+								  <path fill="none" stroke="#f1f1f1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+								    M48.9,17.4c3.1,5.8,3.9,12.9,1.4,19.7c-4.6,12.4-18.4,18.8-30.8,14.3S0.7,33,5.2,20.5S23.6,1.7,36,6.3"/>
+								  <polyline class="tick" fill="none" stroke="#f1f1f1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+								    20.3,25.4 28.6,33.9 46.7,8.3 "/>
+								  </svg>
+								</div>
+							</a>
+						</div>
+						<div class="clearfix data" style="width: 100%; float: left; margin-top: 1em;">
+							<pre>data: {{$data | json 2}}</pre>
+						</div>
+					</li>
+				</ul>
+			</div>
 
 			<div class="search-overlay">
 				<div class="overlay-content content-inner-wrapper">
@@ -111,11 +192,14 @@
 		</div>
 	</div>
 </div>
-	<script src="js/rivets.bundled.min.js"></script>
+	<script src="js/vue.js"></script>
     <script src="js/vendor/jquery.cssAnimateAuto.js"></script>
+    <script src="js/vendor/moment.min.js"></script>
     <script src="js/vendor/perfect-scrollbar.jquery.js"></script>
 	<script src="js/vendor/jquery.autogrow-min.js"></script>
 	<script src="js/vendor/selectize.js"></script>
 	<script src="js/bootstrap.js"></script>
+	<script src="js/data.js"></script>
+	<script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 </body>
 </html>

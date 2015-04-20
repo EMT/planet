@@ -1,208 +1,129 @@
 
-var theTeam = [
-	{text:'Loz',value:'Loz'},
-	{text:'Ed',value:'Ed'},
-	{text:'Sadie',value:'Sadie'},
-	{text:'Andy',value:'Andy'},
-	{text:'Eve',value:'Eve'},
-	{text:'Harry',value:'Harry'}
-];
+var availableId = 0;
+var lazyValidation = false;	
 
-var theProjects = [
-	{text:'Plau',value:'Plau'},
-	{text:'Substance Site',value:'Substance Site'},
-	{text:'Planet',value:'Planet'},
-	{text:'Sustrans',value:'Sustrans'},
-	{text:'Plan.Do',value:'Plan.Do'},
-	{text:'Scriberia',value:'Scriberia'}
-];
+	$('.js-load').on('submit', '.add-task-block form', function(e) {
+		e.preventDefault();
 
-// var GenericTasks = [
-// 	{	
-// 		"project":"Substance",
-// 		"description":"Do a flip! Fry, you can't just sit here in the dark listening to classical music. I could if you hadn't turned on the light and shut off my stereo. I've been there. My folks were always on me to groom myself and wear underpants. What am I, the pope?",
-// 		"time":"20:32",
-// 		"date":"Last Week",
-// 		"completed":true,
-// 		"subtasks": [
-// 			{ "task":"Stop using planet as my personal todo list" },
-// 			{ "task":"Pick up my washing" },
-// 			{ "task":"Do the dishes" }
-// 		],
-// 		"team": [
-// 			{ "user":"Harry" },
-// 			{ "user":"Loz" },
-// 			{ "user":"Eve" }
-// 		]
-// 	},
-// 	{	
-// 		"project":"Substance",
-// 		"description":"Do a flip! Fry, you can't just sit here in the dark listening to classical music. I could if you hadn't turned on the light and shut off my stereo. I've been there. My folks were always on me to groom myself and wear underpants. What am I, the pope?",
-// 		"time":"20:32",
-// 		"date":"Last Week",
-// 		"completed":false,
-// 		"subtasks": [],
-// 		"team": [
-// 			{ "user":"Andy" },
-// 			{ "user":"Ed" }
-// 		]
-// 	},
-// 	{	
-// 		"project":"Substance",
-// 		"description":"Do a flip! Fry, you can't just sit here in the dark listening to classical music. I could if you hadn't turned on the light and shut off my stereo. I've been there. My folks were always on me to groom myself and wear underpants. What am I, the pope?",
-// 		"time":"20:32",
-// 		"date":"Last Week",
-// 		"completed":false,
-// 		"subtasks": [
-// 			{ "task":"Stop using planet as my personal todo list" },
-// 			{ "task":"Pick up my washing" },
-// 			{ "task":"Do the dishes" }
-// 		],
-// 		"team": [
-// 			{ "user":"Eve" },
-// 			{ "user":"Sadie" }
-// 		]
-// 	},
-// 	{	
-// 		"project":"Substance",
-// 		"description":"Do a flip! Fry, you can't just sit here in the dark listening to classical music. I could if you hadn't turned on the light and shut off my stereo. I've been there. My folks were always on me to groom myself and wear underpants. What am I, the pope?",
-// 		"time":"20:32",
-// 		"date":"Last Week",
-// 		"completed":true,
-// 		"subtasks": [
-// 			{ "task":"Stop using planet as my personal todo list" },
-// 			{ "task":"Pick up my washing" },
-// 			{ "task":"Do the dishes" }
-// 		],
-// 		"team": [
-// 			{ "user":"Harry" },
-// 			{ "user":"Loz" },
-// 			{ "user":"Eve" }
-// 		]
-// 	}
-// ];
-
-rivets.binders.addclass = function(el, value) {
-  if(el.addedClass) {
-    $(el).removeClass(el.addedClass)
-    delete el.addedClass
-  }
-
-  if(value) {
-    $(el).addClass(value)
-    el.addedClass = value
-  }
-}
-
-rivets.binders.listdata = function (el, value) {
-	var thedata = [];
-
-	for (index = 0; index < value.length; ++index) {
-		thedata.push(value[index].user);
-	}
-
-	$(el).data("currentUsers",thedata);
-}
+		var currentSubTasks = [];
+		var currentNames = [];
+		var currentDate = new Date().getTime() / 1000;
+		var descriptionText = $(this).find('.task-description-input').val();
+		var selectedNames = $(this).find($('.js-names-input')[1]).val();
+		var selectedProject = $(this).find('.js-project-input').val();
 
 
-	// var testObject = GenericTasks;
+		$(this).find('.subtask-list li input').each(function(){
+			var subTaskObj = {"task":$(this).val()};
+			if ( $(this).val() != '' ) {
+				currentSubTasks.push(subTaskObj);
+			}
+		});	
 
-	// // // Put the object into storage
-	// localStorage.setItem('testObject', JSON.stringify(testObject));
+		console.log($(this).find($('div.js-names-input')[1]).val());
 
-	// Retrieve the object from storage
-	var retrievedObject = localStorage.getItem('testObject');
-	var retrievedData =  JSON.parse(retrievedObject);
-	console.log('retrievedObject: ', JSON.parse(retrievedObject));
+		if ( selectedNames != null ) {
+			$.each(selectedNames, function( index, value ) {
+			   var namesObj = {user:value};
+			   currentNames.push(namesObj);
+			});
+		}
+
+		var newTask = {
+			id: availableId,
+	        done: false,
+	        project: selectedProject,
+	        date: currentDate,
+	        subtasks: currentSubTasks,
+	        team: selectedNames,
+	        content: descriptionText
+		}
+
+		console.log(currentSubTasks);
+		console.log(descriptionText);
+		console.log(selectedProject);
+		console.log(currentNames);
 
 
+		if ( descriptionText !== '' && selectedNames !== [] && selectedProject !== '') {
+			lazyValidation = true;
+		} else {
+			lazyValidation = false;
+			$(this).parent().addClass('lazy-val-error');
+		}
 
+		if ( lazyValidation == true ) {
+			console.log(newTask);
+			pushTask(newTask);
+			$(this).parent().removeClass('lazy-val-error');
+		} else {
+			console.log('VAL FAIL');
+		}
+
+	});
+
+
+	$('.js-add-project').on('click', function(e){
+		e.preventDefault();
+
+		$('.new-project-overlay').addClass('project-added');
+
+		var projectTitle = $('.project-title-input').val();
+
+		var newProject = {};
+		newProject = {text: projectTitle,value: projectTitle};
+		theProjects.push(newProject);
+
+
+		// animateLoad("personal.html",'none');
+		// This would wait until ajax complete (adding in the new project and loading the page).
+		setTimeout(function(){
+			$('.new-project-overlay').removeClass('visible');
+			$('.new-project-overlay').removeClass('project-added');
+			$('.content-area').removeClass('overlay-on');
+		},3000);
+
+	});
+
+	// This is the old implimentation of the subtasks code, need to fix how new projects are added and then this can be removed.
+	$(document).on('keydown', '.add-task-block .subtask-input', function(e){
+		var code = e.keyCode || e.which;
+		if ( code == 13 ) {
+			e.preventDefault();
+			$(this).parents('.subtask-list').append('<li class="subtask"><input type="text" class="subtask-input" placeholder="Add Subtask"></li>');
+			console.log($(this).parent().last());
+			$(this).parents('.subtask-list').children().last().children('input').focus();
+		} else if ( code == 8  && !$(this).val() && $(this).parents('.subtask-list').children().length > 1) {
+			e.preventDefault();
+			$(this).parents('.subtask-list').children().last().prev("li").children('input').focus();
+			$(this).parent().remove();
+		}
+	});
 
 
 
 $(document).ready(function(){
 
 
+	// // On load lets grab the "Overview" task list.
+	animateLoad();
 
-	// On load lets grab the "Overview" task list.
-	animateLoad("global.html");
-
-	// get the DOM elements
-	var userList = document.getElementById('teamList');
-	var projectList = document.getElementById('projectList');
-
-	// pass the data to the DOM element
-	rivets.bind(userList,{users:theTeam});
-	rivets.bind(projectList,{projects:theProjects});
 
 	// Initialise autogrow on the new project modal description input.
-	$('.task-description-input').autoGrow();
+	$('.js-task-description-input').autoGrow();
 	// Initialise the select area on the new project modal.
 	$('.names-input').selectize({
 		options: theTeam // use theTeam data source
 	});
 
 
-
-$('.js-load').on('submit', '.add-task-block form', function(e) {
-	e.preventDefault();
-
-
-	var currentDate = new Date(); 
-	var currentTime = currentDate.getHours() + ":"  + currentDate.getMinutes();
-
-	var descriptionText = $(this).find('.task-description-input').val();
-	var selectedNames = $(this).find('.js-names-input').val();
-	var selectedProject = $(this).find('.js-project-input').val();
-
-	var currentSubTasks = [];
-	var subTaskObj = {};
-
-	$(this).find('.subtask-list li input').each(function(){
-		subTaskObj = {"task":$(this).val()};
-		if ( $(this).val() != '' ) {
-			currentSubTasks.push(subTaskObj);
-		}
-	});	
-
-	var currentNames = [];
-	var namesObj = {};
-
-	if ( selectedNames != null ) {
-		$.each(selectedNames, function( index, value ) {
-		   namesObj = {"user":value};
-		   currentNames.push(namesObj);
-		});
-	}
-
-	var newTask = [
-		{	
-			"project": selectedProject,
-			"description": descriptionText,
-			"time": currentTime,
-			"date":"Last Week",
-			"completed": false,
-			"subtasks": currentSubTasks,
-			"team": currentNames
-		}
-	];
-
-	retrievedData.push(newTask[0]);
-
-	localStorage.setItem('testObject', JSON.stringify(retrievedData));
-
-
-
-
 	$(".js-load .task-names .js-selector").each(function(){
 	    $(this).selectize({
-	    		options: theTeam
-	    	});
-	    	var selectize = $(this)[0].selectize;
-	    	selectize.setValue($(this).data('currentUsers'));
+	    	options: theTeam
 	    });
+	    var selectize = $(this)[0].selectize;
+	    selectize.setValue($(this).data('currentUsers'));
 	});
-
 
 	// Toggle for the search overlay.
 
@@ -238,47 +159,8 @@ $('.js-load').on('submit', '.add-task-block form', function(e) {
 		}
 	});
 
-	// Replace the current content of js-load area with new project task list.
-	$('.js-add-project').on('click', function(e){
-		e.preventDefault();
-
-		$('.new-project-overlay').addClass('project-added');
-
-		var projectTitle = $('.project-title-input').val();
-
-		var newProject = {};
-		newProject = {text: projectTitle,value: projectTitle};
-		theProjects.push(newProject);
-
-
-		animateLoad("personal.html",'none');
-		// This would wait until ajax complete (adding in the new project and loading the page).
-		setTimeout(function(){
-			$('.new-project-overlay').removeClass('visible');
-			$('.new-project-overlay').removeClass('project-added');
-			$('.content-area').removeClass('overlay-on');
-		},3000);
-
-	});
-
-	
-	// Subtask List (Needs cleaning up).
-
-	$(document).on('keydown', '.subtask-input', function(e){
-		var code = e.keyCode || e.which;
-		if ( code == 13 ) {
-			e.preventDefault();
-			$(this).parents('.subtask-list').append('<li class="subtask"><input type="text" class="subtask-input" placeholder="Add Subtask"></li>');
-			console.log($(this).parent().last());
-			$(this).parents('.subtask-list').children().last().children('input').focus();
-		} else if ( code == 8  && !$(this).val() && $(this).parents('.subtask-list').children().length > 1) {
-			e.preventDefault();
-			$(this).parents('.subtask-list').children().last().prev("li").children('input').focus();
-			$(this).parent().remove();
-		}
-	});
-
 	// Basic filtering of each list to only show your personal tasks, this persists across projects.
+	// This can be done with vue.js if we want to or keep it css based.
 
 	$('.personal-filter').on('click', function(){
 		$('.js-load').toggleClass('personal');
@@ -286,19 +168,6 @@ $('.js-load').on('submit', '.add-task-block form', function(e) {
 
 	$('.global-filter').on('click', function(){
 		$('.js-load').removeClass('personal');
-	});
-
-	// Load in the overview list on clicking the planet logo (simulates returning to homepage).
-
-	$('.planet-logo').on('click', function(){
-		animateLoad("global.html");
-	});
-
-	// Load in lists in the ajax area that have the class .ajaxed (used in the sidebar).
-	$('.ajaxed').on('click', function(e){
-		e.preventDefault();
-		loadUrl = $(this).attr('href');
-		animateLoad(loadUrl);
 	});
 
 
@@ -342,21 +211,15 @@ $('.js-load').on('submit', '.add-task-block form', function(e) {
 
 	// Prevent the task list items from closing when you click on the form inputs.
 
-	$('.js-load').on('click', '.toggle, .subtask-input, .selectize-input, .is-opened .task-description, .is-opened .task-description-input', function(e) {
+	$('.js-load').on('click', '.js-add-task, .toggle, .subtask-input, .selectize-input, .is-opened .task-description, .is-opened .task-description-input', function(e) {
 		e.stopPropagation();
-
-		if ( $(this).hasClass('toggle') ) {
-			$(this).toggleClass('done');		
-		}
 	});
 
 	// Slide out the mobile menu.
 
-	$('.js-menu-toggle').on('click', function(){
-		$('.side-nav').toggleClass('active');
-	});
 
 	 $('.side-nav').perfectScrollbar();
+
 
 });
 
@@ -389,36 +252,32 @@ var animateLoad = function(ajaxUrl,loader) {
 		  cache: false
 		})
 		  .done(function( html ) {
-		  	// Swap out the .js-load html with the new ajaxed content and then initialise the plugins for the form fields.
-		    $(".js-load").html( html );
-
-			// get the DOM elements
-			var taskList = document.getElementById('taskList');
-
-			// pass the data to the DOM element
-			rivets.bind(taskList,{tasks:retrievedData});
-
-
-		    $('.js-load .task-description-input').autoGrow();
 
 		    $('.js-load .basic-task').each(function(){
 		    	hasList($(this));
+		    	$(this).find('.task-description-input').autoGrow();
 		    });
 
 		    $(".js-load .task-names .js-selector").each(function(){
+		    	var test = $(this);
 		    	$(this).selectize({
-		    		options: theTeam
+		    		options: theTeam,
+		    		onChange: function(value) {
+		    			console.log(test.siblings('select.js-names-input'));
+		               test.parents('.task-names.input-list-wrapper').val(value);
+			        }
 		    	});
 		    	var selectize = $(this)[0].selectize;
-		    	selectize.setValue($(this).data('currentUsers'));
+		    	selectize.setValue($(this).siblings('select').val());
 		    });
-
 
 		    $(".js-load .task-project .js-selector").each(function(){
 		    	$(this).selectize({
 		    		options: theProjects
 		    	});
 		    });
+
+		    $('.loader').remove();
 		    // Slight delay before removing content-hidden class to prevent popin when plugins are activated.
 		    setTimeout(function(){
 		    	$(".js-load").removeClass('content-hidden');
