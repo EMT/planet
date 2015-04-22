@@ -94,7 +94,9 @@
 
 					<li data-scope="personal" class="basic-task rounded-white-modal clearfix mix" v-repeat="tasks" v-transition>
 						<div class="task-left-col">
-							<textarea rows="1" class="task-description js-task-description-input" contentEditable="true" style="outline:none" type="text" v-model="content"></textarea>
+							<div class="task-description-wrapper hidden-text">
+								<textarea rows="1" class="task-description js-task-description-input" contentEditable="true" style="outline:none" type="text" v-model="content"></textarea>
+							</div>
 							<span class="task-assigned-project">{{project}}</span>
 							<span class="task-time-added">
 								<span class="date">{{date | formatDate}}</span>
@@ -196,7 +198,7 @@
     <script src="js/vendor/jquery.cssAnimateAuto.js"></script>
     <script src="js/vendor/moment.min.js"></script>
     <script src="js/vendor/perfect-scrollbar.jquery.js"></script>
-	<script src="js/vendor/jquery.autogrow-min.js"></script>
+	<script src="js/vendor/autosize.min.js"></script>
 	<script src="js/vendor/selectize.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/data.js"></script>

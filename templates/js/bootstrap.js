@@ -199,14 +199,36 @@ $(document).ready(function(){
 		$(this).cssAnimateAuto('height 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000)');
 
 		// Remove the is-opened class applied by cssAnimateAuto slightly early to fix some overflow issues.
+		var descriptionWrapper = $(this).find('.task-description-wrapper');
+
+		var maxHeight = $(this).find('.task-description').innerHeight();
+		descriptionWrapper.css('maxHeight',maxHeight);
+
+		descriptionWrapper.removeClass('hidden-text');
+		descriptionWrapper.addClass('animated-height');
+		setTimeout(function(){
+			descriptionWrapper.removeClass('animated-height');
+		},400);
+
 
 		if ($(this).hasClass('is-opened')) {
+			descriptionWrapper.addClass('hidden-text');
+			descriptionWrapper.addClass('animated-height');
+			setTimeout(function(){
+				descriptionWrapper.removeClass('animated-height');
+			},400);
+
 			$(this).removeClass('is-opened');
 		}
 
 		// Check if the task has any subtasks, if so add a list icon on close.
 
 		hasList($(this));
+	});
+
+	$('.task-description').on("input", function(){
+		var maxHeight = $(this).innerHeight();
+		$(this).parent().css('maxHeight',maxHeight);
 	});
 
 	// Prevent the task list items from closing when you click on the form inputs.
@@ -256,6 +278,8 @@ var animateLoad = function(ajaxUrl,loader) {
 		    $('.js-load .basic-task').each(function(){
 		    	hasList($(this));
 		    	$(this).find('.task-description-input').autoGrow();
+		    	// Swap out autogrow with this script - http://www.jacklmoore.com/autosize/
+		    	autosize($(this).find('.task-description-input'));
 		    });
 
 		    $(".js-load .task-names .js-selector").each(function(){
