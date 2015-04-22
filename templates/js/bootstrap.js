@@ -191,7 +191,6 @@ $(document).ready(function(){
 
 		// Old easing -> cubic-bezier(0.215, 0.610, 0.355, 1.000)
 		// $(this).find('.task-description').cssAnimateAuto('height 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000)');
-		$(this).cssAnimateAuto('height 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000)');
 
 		// Remove the is-opened class applied by cssAnimateAuto slightly early to fix some overflow issues.
 		var descriptionWrapper = $(this).find('.task-description-wrapper');
@@ -206,6 +205,7 @@ $(document).ready(function(){
 		},400);
 
 
+		$(this).cssAnimateAuto('height 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000)');
 		if ($(this).hasClass('is-opened')) {
 			descriptionWrapper.addClass('hidden-text');
 			descriptionWrapper.addClass('animated-height');
@@ -217,7 +217,6 @@ $(document).ready(function(){
 		}
 
 		// Check if the task has any subtasks, if so add a list icon on close.
-
 		hasList($(this));
 	});
 

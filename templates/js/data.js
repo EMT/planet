@@ -39,7 +39,7 @@ var theData = {
             { task: "Stop using planet as my personal to-do list. No.2"}
         ],
         team: ["1","2","3"],
-        content: 'asfasfsa\ns\ns\ns\ns\ns\ns'
+        content: 'Such textArea.\n\nMuch auto-expand.\n\nMany bugs.\n'
       }
     ]
 }
@@ -98,6 +98,22 @@ Vue.directive('selectize', {
     }
 })
 
+Vue.directive('autosize', {
+  bind: function () {
+    var self = this;
+
+    this.vm.$once('hook:ready', function(){
+        autosize($(self.el));
+    });
+
+  },
+  unbind: function () {
+    var evt = document.createEvent('Event');
+    evt.initEvent('autosize:destroy', true, false);
+    $(self.el).dispatchEvent(evt);
+  }
+})
+
 
 var projects = new Vue({
   el: 'html',
@@ -110,26 +126,25 @@ var projects = new Vue({
   },
 
   methods: {
-    addSubTask: function (item, e) {
-      item.subtasks.push({task: e.target.value});
+    addSubTask: function (self, e) {
+      self.subtasks.push({task: e.target.value});
       e.target.value = '';
     },
-    removeSubTask: function(item, e) {
+    removeSubTask: function(self, e) {
       if (e.target.value == '') {
         e.preventDefault();
-        item.subtasks.$remove(item.$data);
+        self.subtasks.$remove(self.$data);
       }
     },
-    removeTask: function(item, e) {
+    removeTask: function(self, e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log(item.$data);
-        item.tasks.$remove(item.$data);
+        self.tasks.$remove(self.$data);
     },
-    changeProject: function(item, e) {
+    changeProject: function(self, e) {
         e.preventDefault();
         // We can change the api url based on the current project id setting.
-        alert(item.id);
+        alert(self.value);
     }
   }
 
