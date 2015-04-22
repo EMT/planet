@@ -9,7 +9,7 @@ var theData = {
     ],
     projects: [
         {text:'Plau',value:'1'},
-        {text:'Substance Site',value:'2'},
+        {text:'Substance',value:'2'},
         {text:'Planet',value:'3'},
         {text:'Sustrans',value:'4'},
         {text:'Plan.Do',value:'5'},
@@ -106,11 +106,6 @@ Vue.directive('autosize', {
         autosize($(self.el));
     });
 
-  },
-  unbind: function () {
-    var evt = document.createEvent('Event');
-    evt.initEvent('autosize:destroy', true, false);
-    $(self.el).dispatchEvent(evt);
   }
 })
 

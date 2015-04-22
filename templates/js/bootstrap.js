@@ -2,6 +2,36 @@
 var availableId = 0;
 var lazyValidation = false;	
 
+
+
+
+$(document).ready(function(){
+
+
+	// // On load lets grab the "Overview" task list.
+	animateLoad();
+
+
+	// Initialise autogrow on the new project modal description input.
+	autosize($('.js-task-description-input'));
+	// Initialise the select area on the new project modal.
+
+	// Make this work on the add-project input as well.
+	var $teamSelect = $('.add-task-block .names-input').selectize({
+		options: theData.users // use theTeam data source
+	});
+
+    var teamSelectizeControl = $teamSelect[0].selectize
+
+    var $projectSelect = $('.add-task-block .project-input').selectize({
+    		options: theData.projects
+    });
+
+    var projectSelectizeControl = $projectSelect[0].selectize
+
+
+
+
 	$('.js-load').on('submit', '.add-task-block form', function(e) {
 		e.preventDefault();
 
@@ -9,9 +39,8 @@ var lazyValidation = false;
 		var currentNames = [];
 		var currentDate = new Date().getTime() / 1000;
 		var descriptionText = $(this).find('.task-description-input').val();
-		var selectedNames = $(this).find($('.js-names-input')[1]).val();
-		var selectedProject = $(this).find('.js-project-input').val();
-
+		var selectedNames = teamSelectizeControl.getValue();
+		var selectedProject = projectSelectizeControl.getItem(projectSelectizeControl.getValue()).text();
 
 		$(this).find('.subtask-list li input').each(function(){
 			var subTaskObj = {"task":$(this).val()};
@@ -19,10 +48,6 @@ var lazyValidation = false;
 				currentSubTasks.push(subTaskObj);
 			}
 		});	
-
-		// console.log($(this).find($('div.js-names-input')[1]).val());
-
-		console.log(selectedNames);
 
 		if ( selectedNames != [] ) {
 			$.each(selectedNames, function( index, value ) {
@@ -40,12 +65,6 @@ var lazyValidation = false;
 	        team: selectedNames,
 	        content: descriptionText
 		}
-
-		console.log(currentSubTasks);
-		console.log(descriptionText);
-		console.log(selectedProject);
-		console.log(currentNames);
-
 
 		if ( descriptionText !== '' && selectedNames !== [] && selectedProject !== '') {
 			lazyValidation = true;
@@ -102,23 +121,6 @@ var lazyValidation = false;
 		}
 	});
 
-
-
-$(document).ready(function(){
-
-
-	// // On load lets grab the "Overview" task list.
-	animateLoad();
-
-
-	// Initialise autogrow on the new project modal description input.
-	autosize($('.js-task-description-input'));
-	// Initialise the select area on the new project modal.
-
-	// Make this work on the add-project input as well.
-	$('.add-task-block .names-input').selectize({
-		options: theData.users // use theTeam data source
-	});
 
 	// Toggle for the search overlay.
 
@@ -292,13 +294,6 @@ var animateLoad = function(ajaxUrl,loader) {
 
 		  	// http://vuejs.org/guide/transitions.html
 		  	// Take a look at transitions and intialise the plugins on each task seperately ?
-
-
-		    $(".js-load .task-project .js-selector").each(function(){
-		    	$(this).selectize({
-		    		options: theData.projects
-		    	});
-		    });
 
 		    $('.loader').remove();
 		    // Slight delay before removing content-hidden class to prevent popin when plugins are activated.
