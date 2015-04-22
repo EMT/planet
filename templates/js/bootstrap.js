@@ -20,7 +20,7 @@ var lazyValidation = false;
 			}
 		});	
 
-		console.log($(this).find($('div.js-names-input')[1]).val());
+		// console.log($(this).find($('div.js-names-input')[1]).val());
 
 		if ( selectedNames != null ) {
 			$.each(selectedNames, function( index, value ) {
@@ -110,19 +110,12 @@ $(document).ready(function(){
 
 
 	// Initialise autogrow on the new project modal description input.
-	$('.js-task-description-input').autoGrow();
+	autosize($('.js-task-description-input'));
 	// Initialise the select area on the new project modal.
-	$('.names-input').selectize({
-		options: theTeam // use theTeam data source
-	});
 
-
-	$(".js-load .task-names .js-selector").each(function(){
-	    $(this).selectize({
-	    	options: theTeam
-	    });
-	    var selectize = $(this)[0].selectize;
-	    selectize.setValue($(this).data('currentUsers'));
+	// Make this work on the add-project input as well.
+	$('.add-task-block .names-input').selectize({
+		options: theData.users // use theTeam data source
 	});
 
 	// Toggle for the search overlay.
@@ -195,7 +188,7 @@ $(document).ready(function(){
 	$('.js-load').on('click', '.basic-task', function() {
 
 		// Old easing -> cubic-bezier(0.215, 0.610, 0.355, 1.000)
-		$(this).find('.task-description').cssAnimateAuto('height 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000)');
+		// $(this).find('.task-description').cssAnimateAuto('height 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000)');
 		$(this).cssAnimateAuto('height 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000)');
 
 		// Remove the is-opened class applied by cssAnimateAuto slightly early to fix some overflow issues.
@@ -282,18 +275,27 @@ var animateLoad = function(ajaxUrl,loader) {
 		    	autosize($(this).find('.task-description-input'));
 		    });
 
-		    $(".js-load .task-names .js-selector").each(function(){
-		    	var test = $(this);
-		    	$(this).selectize({
-		    		options: theTeam,
-		    		onChange: function(value) {
-		    			console.log(test.siblings('select.js-names-input'));
-		               test.parents('.task-names.input-list-wrapper').val(value);
-			        }
-		    	});
-		    	var selectize = $(this)[0].selectize;
-		    	selectize.setValue($(this).siblings('select').val());
-		    });
+		    // $(".js-load .task-names select.js-selector#test").each(function(e){
+		    // 	var test = $(this);
+
+		    // 	// $(test).each(function(e){
+		    // 	// 	console.log($(this));
+		    // 	// });
+		    // 	console.log( test  + ' ----> ' + $(this).data('theusers'));
+		    // 	$(this).selectize({
+		    // 		options: theData.users,
+		    // 		onChange: function(value) {
+		    //            $(this).data('theusers',value);
+		    //            console.log($(this).data('theusers'));
+			   //      }
+		    // 	});
+		    // 	var selectize = $(this)[0].selectize;
+		    // 	// selectize.setValue('');
+		    // });
+
+		  	// http://vuejs.org/guide/transitions.html
+		  	// Take a look at transitions and intialise the plugins on each task seperately ?
+
 
 		    $(".js-load .task-project .js-selector").each(function(){
 		    	$(this).selectize({

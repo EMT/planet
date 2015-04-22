@@ -29,14 +29,14 @@
 			<div class="projects-list--sidebar" id="projectList">
 				<h2 class="projects-title sidebar-title">Projects<span class="sidebar-num">{{projects.length}}</span></h2>
 				<ul class="sidebar-list">
-					<li v-repeat="projects"><a class="ajaxed" href="#" v-on="click: changeProject(this, $event)">{{ name }}</a><span class="sidebar-num">12</span></li>
+					<li v-repeat="projects"><a class="ajaxed" href="#" v-on="click: changeProject(this, $event)">{{ text }}</a><span class="sidebar-num">12</span></li>
 				</ul>
 			</div>
 
 			<div class="team-list--sidebar" id="teamList">
 				<h2 class="team-title sidebar-title">Team Members<span class="sidebar-num">{{users.length}}</span></h2>
 				<ul class="sidebar-list">
-					<li v-repeat="users"><a href="#">@{{ name }}</a></li>
+					<li v-repeat="users"><a href="#">@{{ text }}</a></li>
 				</ul>
 			</div>
 		</div>
@@ -79,7 +79,7 @@
 									</ul>
 									<div class="form-select-fields">	
 										<div class="task-names input-list-wrapper">
-											<select id="select-names-test" name="names" multiple class="js-selector js-names-input names-input" placeholder="Add a user..."></select>
+											<select name="names" multiple class="js-selector js-names-input names-input" placeholder="Add a user..."></select>
 										</div>
 										<div class="task-project input-list-wrapper">
 											<select id="select-project" name="project" class="js-selector js-project-input project-input" placeholder="Select a project..."></select>
@@ -111,8 +111,8 @@
 										<input type="text" class="subtask-input" placeholder="Add Subtask" v-on="keydown: removeSubTask(this, $event) | key 8, keydown: addSubTask(this, $event) | key enter">
 									</li>
 								</ul>
-								<div class="task-names input-list-wrapper" v-names="team" >
-									<select id="select-names-test" name="names" multiple class="js-selector js-names-input names-input" style="width:100%" placeholder="Add a user..."></select>
+								<div class="task-names input-list-wrapper" >
+									<select v-selectize="team" id="test" multiple name="names" class="js-selector js-names-input names-input" style="width:100%" placeholder="Add a user..."></select>
 								</div>
 							</form>
 						</div>

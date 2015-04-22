@@ -1,36 +1,19 @@
-// Temp Data
-
-var theTeam = [
-    {text:'Loz',value:'1'},
-    {text:'Ed',value:'2'},
-    {text:'Sadie',value:'3'},
-    {text:'Andy',value:'4'},
-    {text:'Eve',value:'5'},
-    {text:'Harry',value:'6'}
-];
-
-var theProjects = [
-    {text:'Plau',value:'Plau'},
-    {text:'Substance Site',value:'Substance Site'},
-    {text:'Planet',value:'Planet'},
-    {text:'Sustrans',value:'Sustrans'},
-    {text:'Plan.Do',value:'Plan.Do'},
-    {text:'Scriberia',value:'Scriberia'}
-];
-
 var theData = {
     users: [
-       { name: 'Harry', id: '1'},
-       { name: 'Loz', id: '2'},
-       { name: 'Eve', id: '3'},
-       { name: 'Sadie', id: '4'},
-       { name: 'Andy', id: '5'},
-       { name: 'Ed', id: '6'}
+        {text:'Loz',value:'1'},
+        {text:'Ed',value:'2'},
+        {text:'Sadie',value:'3'},
+        {text:'Andy',value:'4'},
+        {text:'Eve',value:'5'},
+        {text:'Harry',value:'6'}
     ],
     projects: [
-       { name: 'Substance', id: '1'},
-       { name: 'Plan.Do', id: '2'},
-       { name: 'Planet', id: '3'},
+        {text:'Plau',value:'1'},
+        {text:'Substance Site',value:'2'},
+        {text:'Planet',value:'3'},
+        {text:'Sustrans',value:'4'},
+        {text:'Plan.Do',value:'5'},
+        {text:'Scriberia',value:'6'}
     ],
     title: 'overview',
     tasks: [
@@ -43,10 +26,7 @@ var theData = {
             { task: "Stop using planet as my personal to-do list."},
             { task: "Stop using planet as my personal to-do list. No.2"}
         ],
-        team: [
-            { user: "Harry" },
-            { user: "Loz" }
-        ],
+        team: ["1","2","4"],
         content: 'Do a flip!'
       },
       {
@@ -58,10 +38,7 @@ var theData = {
             { task: "Stop using planet as my personal to-do list."},
             { task: "Stop using planet as my personal to-do list. No.2"}
         ],
-        team: [
-            { user: "Harry" },
-            { user: "Loz" }
-        ],
+        team: ["1","2","3"],
         content: 'asfasfsa\ns\ns\ns\ns\ns\ns'
       }
     ]
@@ -82,34 +59,43 @@ moment.locale('en', {
 
 // Initalise the vue data binding.
 
-Vue.directive('names', {
+Vue.directive('selectize', {
   twoWay: true,
-  bind: function () {
-    this.handler = function () {
-      // set data back to the vm.
-      // If the directive is bound as v-example="a.b.c",
-      // this will attempt to set `vm.a.b.c` with the
-      // given value.
-      this.set(this.el.value)
-    }.bind(this)
+    bind: function (value) {
+        var self = this;
 
-    // console.log(this.el.value);
+        this.vm.$once('hook:ready', function() {
+            self.selectize = $(self.el).selectize({
+                options: self.vm.users,
+                valueField  : 'value',
+                labelField  : 'text',
+                sortField   : 'text',
+                searchField : 'text'
+            })[0].selectize;
 
-    // var thedata = [];
-    // for (index = 0; index < this.el.value.length; ++index) {
-    //     thedata.push(this.el.value[index].user);
-    // }
+            self.selectize.setValue(self.vm.team);
 
-    // console.log(theData);
+            self.selectize.on('change', function(value) {
+                console.log(value);
+                self.set(value);
+            });
+        });
 
-    // this.$el.data("currentUsers",thedata);
-    console.log($(this.el).find($('div.js-names-input')[1]));
-    this.el.addEventListener('input', this.handler)
-    // console.log(this);
-  },
-  unbind: function () {
-    this.el.removeEventListener('input', this.handler)
-  }
+    },
+
+    update: function(values) {
+        var self = this;
+
+        if (self.selectize) {
+            values.forEach(function(item) {
+                self.selectize.addItem(item);
+            });
+        }
+    },
+
+    unbind: function() {
+        this.selectize.destroy();
+    }
 })
 
 
@@ -136,6 +122,7 @@ var projects = new Vue({
     },
     removeTask: function(item, e) {
         e.preventDefault();
+        e.stopPropagation();
         console.log(item.$data);
         item.tasks.$remove(item.$data);
     },
@@ -160,8 +147,8 @@ var apiSource = "http://planet-api.dev.192.168.0.3.xip.io/tasks.json";
 var postTarget = "http://planet-api.dev.192.168.0.3.xip.io/tasks/add/";
 var deleteTarget = "http://planet-api.dev.192.168.0.3.xip.io/tasks/delete/";
 
-var taskListData = [];
-console.log(taskListData);
+// var taskListData = [];
+// console.log(taskListData);
 
 function getTasks(){
     $.get( apiSource, function( data ) {
