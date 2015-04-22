@@ -87,10 +87,12 @@
 	// white-space: nowrap;
 	overflow: hidden;
 	width: 100%;
-	margin-bottom: 0.5em;
+	// margin-bottom: 0.5em;
 	line-height: 1.2;
 	height: 1em;
-	min-height: 1.5em;
+	padding-left: 0;
+	// min-height: 1.5em;
+	display: inherit;
 	font-size: 1em;
 	color: inherit;
 }
@@ -122,6 +124,18 @@
 	margin-bottom: 1em;
 }
 
+.task-description-wrapper {
+	margin-bottom: 0.5em;
+	overflow: hidden;
+}
+
+.task-description-wrapper.hidden-text {
+	max-height: 24px !important;
+}
+
+.task-description-wrapper.animated-height {
+	transition: max-height 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+}
 
 .left-hand-form-col, .right-hand-form-col {
 	float: left;

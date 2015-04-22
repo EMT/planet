@@ -92,7 +92,7 @@
 						</form>
 					</li>
 
-					<li data-scope="personal" class="basic-task rounded-white-modal clearfix mix" v-repeat="tasks" v-transition>
+					<li data-scope="personal" class="basic-task rounded-white-modal clearfix mix" v-repeat="tasks" v-transition="expand">
 						<div class="task-left-col">
 							<div class="task-description-wrapper hidden-text">
 								<textarea rows="1" class="task-description js-task-description-input" contentEditable="true" style="outline:none" type="text" v-model="content"></textarea>
