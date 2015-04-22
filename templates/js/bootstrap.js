@@ -22,9 +22,11 @@ var lazyValidation = false;
 
 		// console.log($(this).find($('div.js-names-input')[1]).val());
 
-		if ( selectedNames != null ) {
+		console.log(selectedNames);
+
+		if ( selectedNames != [] ) {
 			$.each(selectedNames, function( index, value ) {
-			   var namesObj = {user:value};
+			   var namesObj = value;
 			   currentNames.push(namesObj);
 			});
 		}
@@ -230,9 +232,6 @@ $(document).ready(function(){
 		e.stopPropagation();
 	});
 
-	// Slide out the mobile menu.
-
-
 	 $('.side-nav').perfectScrollbar();
 
 
@@ -270,7 +269,6 @@ var animateLoad = function(ajaxUrl,loader) {
 
 		    $('.js-load .basic-task').each(function(){
 		    	hasList($(this));
-		    	$(this).find('.task-description-input').autoGrow();
 		    	// Swap out autogrow with this script - http://www.jacklmoore.com/autosize/
 		    	autosize($(this).find('.task-description-input'));
 		    });
@@ -299,7 +297,7 @@ var animateLoad = function(ajaxUrl,loader) {
 
 		    $(".js-load .task-project .js-selector").each(function(){
 		    	$(this).selectize({
-		    		options: theProjects
+		    		options: theData.projects
 		    	});
 		    });
 
