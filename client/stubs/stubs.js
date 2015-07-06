@@ -14,15 +14,15 @@ Meteor.methods({
     }
   },
   updateStatus: function(taskId, setStatus) {
-  	var task = Messages.findOne(taskId);
+  	var task = Tasks.findOne(taskId);
   	console.log(task);
-  	Messages.update(task, {$set: {done: setStatus}});
+  	Tasks.update(task, {$set: {done: setStatus}});
   },
   updateTaskDescription: function(taskId, updatedDescription) {
-  	var task = Messages.findOne(taskId);
-  	Messages.update(task, {$set: {text: updatedDescription}});
+  	var task = Tasks.findOne(taskId);
+  	Tasks.update(task, {$set: {text: updatedDescription}});
   },
   removeTask: function(taskId) {
-  	Messages.remove(taskId);
+  	Tasks.remove(taskId);
   }
 })

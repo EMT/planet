@@ -1,5 +1,7 @@
 
 Meteor.subscribe('channels');
+Meteor.subscribe('channelCount');
+Meteor.subscribe('allTasks')
 
 Deps.autorun(function() {
   if (Meteor.user()) {
