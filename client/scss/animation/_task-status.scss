@@ -1,0 +1,71 @@
+.toggle svg {
+	display: block;
+	margin: 0 auto;
+	width: 35px;
+}
+
+.toggle {
+  cursor: pointer;
+  background: #ee5626;
+  padding: 0.6em;
+  border-radius: 100%;
+  display: table;
+  width: 100%;
+  -webkit-transition: background 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+          transition: background 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.toggle.done {
+  background: #4ae4bf;
+}
+
+.tick {
+  stroke-dasharray: 44;
+  stroke-dashoffset: 44;
+}
+
+.done .retract {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  -webkit-animation: retract 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards 1;
+          animation: retract 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards 1;
+}
+
+.done .tick {
+  -webkit-animation: tick 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards 1;
+          animation: tick 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards 1;
+}
+
+@-webkit-keyframes tick {
+  from {
+    stroke-dashoffset: 44;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes tick {
+  from {
+    stroke-dashoffset: 44;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@-webkit-keyframes retract {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 20;
+  }
+}
+@keyframes retract {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 20;
+  }
+}

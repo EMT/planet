@@ -1,0 +1,20 @@
+<template name="tasks">
+	<div class="content-inner-wrapper content-load-area">
+		
+		<div class="task-list-title-area">
+			<h2 class="task-list-title">{{ currentChannel }} -</h2>
+		</div>
+
+		<ul class="task-list" id="taskList">
+			{{> addTask }}
+			{{#if Template.subscriptionsReady}}
+	            {{#each tasks}}
+	                {{> task id=_id text=text timestamp=timestamp user=user channel=channel done=done}}
+	            {{/each}}
+	        {{else}}
+	            Loading…
+	        {{/if}}
+        </ul>
+    </div>
+	
+</template>

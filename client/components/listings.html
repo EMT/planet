@@ -1,0 +1,23 @@
+<template name="listings">
+	<div class="side-nav">
+			<img class="planet-logo" src="/img/planet.svg" alt="">
+
+			<a href="#" class="add-project-link js-add-project-link">Add Project</a>
+
+
+			<div class="projects-list--sidebar" id="projectList">
+				<h2 class="projects-title sidebar-title">Projects<span class="sidebar-num">{{channelCount}}</span></h2>
+				<ul class="sidebar-list">
+				{{#each channels}}
+				    {{> channel name=name}}
+				{{/each}}
+				</ul>
+			</div>
+
+			<div class="team-list--sidebar" id="teamList">
+				<h2 class="team-title sidebar-title">Team Members<span class="sidebar-num">5</span></h2>
+				<ul class="sidebar-list">
+				</ul>
+			</div>
+		</div>
+</template>
